@@ -58,3 +58,13 @@ def update_screen(game_settings, screen, ship, bullets):
 
     #Display the last modified screen
     pygame.display.flip()
+    
+def update_bullets(bullets):
+    """Update position of the bullets and remove bullets 
+    that disappeared from the screen."""
+    #Update bullets position
+    bullets.update()
+    #Delete bullets that have disappeared
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
