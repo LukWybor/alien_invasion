@@ -9,7 +9,7 @@ class Ship():
         
         #Load the ship image and get its rectangle
         self.image = pygame.image.load('images/ship.png')
-        self.image = pygame.transform.scale(self.image, (50, 100))
+        self.image = pygame.transform.scale(self.image, (30, 60))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         
