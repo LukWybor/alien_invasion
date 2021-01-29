@@ -21,14 +21,19 @@ def run_game():
     #Aliens are stored in group
     aliens = Group()
     
+    #Stars are stored in group
+    stars = Group()
+    
     #Creating the fleet of aliens
     gf.create_fleet(game_settings, screen, ship, aliens)
+    #Creating stars
+    gf.create_stars(game_settings, screen, stars)
     
     #Starting the main game loop
     while True: 
         gf.check_events(game_settings, screen, ship, bullets)
         ship.update()
         gf.update_bullets(bullets)        
-        gf.update_screen(game_settings, screen, ship, aliens, bullets)
+        gf.update_screen(game_settings, screen, stars, ship, aliens, bullets)
         
 run_game()
