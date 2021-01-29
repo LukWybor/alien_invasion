@@ -1,9 +1,12 @@
 import sys
 
 import pygame
+import random
 
 from bullet import Bullet
 from alien import Alien
+from star import Star
+
 
 def check_keydown_events(event, game_settings, screen, ship, bullets):
     """Respond to keypresses"""
@@ -53,16 +56,19 @@ def check_events(game_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(game_settings, screen, ship, aliens, bullets):
+def update_screen(game_settings, screen, stars, ship, aliens, bullets):
     """Update images on the screen and flip to the new screen"""
     #Refresh the screen during each iteration of the loop
     screen.fill(game_settings.bg_color)
     #Redraw all bullets behind ship and alliens
+    stars.draw(screen)
+    
     for bullet in bullets.sprites():
         bullet.draw_bullet()
         
     ship.blitme()
     aliens.draw(screen)
+
 
     #Display the last modified screen
     pygame.display.flip()
@@ -98,7 +104,7 @@ def create_alien(game_settings, screen, aliens, alien_number,
     alien_heght = alien.rect.height
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + alien.rect.height * row_number
+    alien.rect.y = alien.rect.height + alien.rect.height * row_number -50
     aliens.add(alien)
     
 def create_fleet(game_settings, screen, ship, aliens):
@@ -115,4 +121,45 @@ def create_fleet(game_settings, screen, ship, aliens):
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
             create_alien(game_settings, screen, aliens, alien_number, 
+                row_number)
+
+#STARS
+
+def get_number_star_x(game_settings, star_width):
+    """Get number of stars in a row"""
+    available_space_x = game_settings.screen_width
+    number_stars_x = int(available_space_x / (15 * star_width))
+    return number_stars_x
+
+def get_number_rows_star(game_settings, star_height):
+    """Get number of rows with stars"""
+    available_space_y = game_settings.screen_height
+    number_rows_star = int(available_space_y / (12 * star_height))
+    return number_rows_star
+
+def create_star(game_settings, screen, stars, star_number, 
+    row_number):
+    """Create a star and place it in the row"""
+    star = Star(game_settings, screen)
+    star_width = star.rect.width
+    star_height = star.rect.height
+    star.x = ((random.randint(5, 10) * star_width) + 
+        (random.randint(5,40) * star_width) * star_number)
+    star.rect.x = star.x
+    star.rect.y = ((random.randint(1, 5) * star.rect.height) +
+        (random.randint(10, 40) * star.rect.height) * row_number)
+    stars.add(star)
+    
+def create_stars(game_settings, screen, stars):
+    """Create stars"""
+    #Create a star and find the number of stars in a row
+    star = Star(game_settings, screen)
+    number_stars_x = get_number_star_x(game_settings, 
+        star.rect.width)
+    number_rows = get_number_rows_star(game_settings, star.rect.height)
+    
+    #Create the first row of stars
+    for row_number in range(number_rows):
+        for star_number in range(number_stars_x):
+            create_star(game_settings, screen, stars, star_number, 
                 row_number)
