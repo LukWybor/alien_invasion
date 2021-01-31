@@ -1,3 +1,4 @@
+  
 import pygame
 from pygame.sprite import Sprite
 
@@ -20,6 +21,11 @@ class Alien(Sprite):
         
         #Store the exact position of the alien
         self.x = float(self.rect.x)
+    
+    def update(self):
+        """Moving an alien to the right"""
+        self.x += self.game_settings.alien_speed_factor
+        self.rect.x = self.x
         
     def blitme(self):
         """Display the alien at his current position"""
