@@ -33,7 +33,7 @@ class Alien(Sprite):
     def update(self):
         """Move the alien to right or left"""
         self.x += (self.game_settings.alien_speed_factor *
-        self.game_settings.fleet_direction)
+          self.game_settings.fleet_direction)
         self.rect.x = self.x
         
     def blitme(self):
